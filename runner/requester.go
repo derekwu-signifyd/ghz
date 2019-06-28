@@ -244,6 +244,8 @@ func (b *Requester) closeClientConns() {
 func (b *Requester) newClientConn(withStatsHandler bool) (*grpc.ClientConn, error) {
 	var opts []grpc.DialOption
 
+	opts = append(opts, grpc.WithBalancerName("round_robin"))
+
 	if b.config.insecure {
 		opts = append(opts, grpc.WithInsecure())
 	} else {
