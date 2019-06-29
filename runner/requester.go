@@ -19,6 +19,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/resolver"
 
 	reflectpb "google.golang.org/grpc/reflection/grpc_reflection_v1alpha"
 )
@@ -272,6 +273,8 @@ func (b *Requester) closeClientConns() {
 }
 
 func (b *Requester) newClientConn(withStatsHandler bool) (*grpc.ClientConn, error) {
+	resolver.SetDefaultScheme("dns")
+
 	var opts []grpc.DialOption
 
 	opts = append(opts, grpc.WithBalancerName("round_robin"))
